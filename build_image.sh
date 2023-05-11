@@ -15,5 +15,10 @@ read package_name version << EOF
 $(poetry version | sed 's/+/_/g')
 EOF
 
-docker build "${project_dir}" -t "couling/${package_name}:${version}"
-docker tag "couling/${package_name}:${version}" "couling/${package_name}:latest"
+docker buildx create --name "${package_name}_builder" --bootstrap --use --driver-opt network=host
+trap "docker buildx stop '${package_name}_builder' && docker buildx rm  '${package_name}_builder'" EXIT
+docker buildx build --push \
+  --platform linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/amd64,linux/386  \
+  --tag "couling/${package_name}:${version}" \
+  --tag "couling/${package_name}:latest" \
+  "$project_dir"
