@@ -1,0 +1,20 @@
+zones:
+  pedal.me.uk: [venus]
+  couling.uk: [venus]
+
+ttl: {minutes: 5}
+
+domain: myip.opendns.com
+
+interval: {minutes: 5}
+
+servers:
+  - resolver1.opendns.com
+  - resolver2.opendns.com
+  - resolver3.opendns.com
+  - resolver4.opendns.com
+
+log_levels:
+  null: INFO
+  botocore: INFO
+  urllib3: INFO

@@ -1,0 +1,16 @@
+version: "3.4"
+
+services:
+
+  dynamic_dns:
+    build: .
+    restart: always
+    volumes:
+      - ./etc:/etc/aws
+      - /root/.aws/:/root/.aws
+    networks:
+      - main
+
+networks:
+  main:
+    external: true
