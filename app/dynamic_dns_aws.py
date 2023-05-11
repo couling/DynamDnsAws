@@ -1,24 +1,33 @@
-import time
 import logging
-import dns.resolver
-import dns.exception
-from dns.rdatatype import RdataType
-from typing import List, Dict, Union, Generator, Iterable
-import yaml
-import boto3
+import time
 from datetime import datetime, timedelta
-import os
-
+from typing import Dict, Generator, Iterable, List, Union
+from pathlib import Path
+import boto3
+import click
+import dns.exception
+import dns.resolver
+import yaml
+from dns.rdatatype import RdataType
+import importlib.metadata
 
 _log = logging.getLogger(__name__)
 
 
-def main():
+@click.command()
+@click.option("--config", default="/etc/dnamic-dns-aws/dynamic-dns.yaml",
+              type=click.Path(file_okay=True, dir_okay=False,exists=True,path_type=Path))
+@click.option("--version", is_flag=True)
+def main(config: Path, version: bool):
+    if version:
+        print(f"dynamic-dns-aws {importlib.metadata.version('dynamic-dns-aws')}")
+        return
+
     logging.basicConfig(format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s", level=logging.DEBUG)
 
     _log.info("Starting up")
 
-    with open("/etc/aws/dynamic_dns.yaml", "r") as file:
+    with open(config, "r") as file:
         config = yaml.safe_load(file)
 
     for unit, level in config.get('log_levels').items():
@@ -69,7 +78,7 @@ class IPUpdater:
         address_spec.sort()
         for zone, names in self._zones.items():
             zone_id = self._get_zone_id(zone)
-            to_update = {f"{name}.{zone}." for name in names}
+            to_update = {f"{name}.{zone}." for name in names} if isinstance(names, list) else {names}
             for record in self._list_zone_records(zone_id):
                 if record['Type'] == 'A' and record['Name'] in to_update:
                     if record['ResourceRecords'] == address_spec and record['TTL'] == self._ttl:
