@@ -1,6 +1,5 @@
 zones:
-  pedal.me.uk: [venus]
-  couling.uk: [venus]
+  example.com: [example-hostname]
 
 ttl: {minutes: 5}
 
