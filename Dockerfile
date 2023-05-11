@@ -16,3 +16,4 @@ RUN source /app/bin/activate && pip install /dist/*.whl
 FROM base as final
 COPY --from=build /app /app
 ENV PATH="/app/bin/:$PATH"
+CMD ["dynamic-dns-aws"]

@@ -26,4 +26,4 @@ requires = ["poetry-core>=1.3.0", "poetry-dynamic-versioning"]
 build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry.scripts]
-my-script = "my_package.log_revision:start"
+dynamic-dns-aws = "dynamic_dns_aws:main"

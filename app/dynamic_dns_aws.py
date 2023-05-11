@@ -1,21 +1,22 @@
+import importlib.metadata
 import logging
 import time
 from datetime import datetime, timedelta
-from typing import Dict, Generator, Iterable, List, Union
 from pathlib import Path
+from typing import Dict, Generator, Iterable, List, Union
+
 import boto3
 import click
 import dns.exception
 import dns.resolver
 import yaml
 from dns.rdatatype import RdataType
-import importlib.metadata
 
 _log = logging.getLogger(__name__)
 
 
 @click.command()
-@click.option("--config", default="/etc/dnamic-dns-aws/dynamic-dns.yaml",
+@click.option("--config", default="/etc/dynamic-dns-aws/dynamic-dns.yaml",
               type=click.Path(file_okay=True, dir_okay=False,exists=True,path_type=Path))
 @click.option("--version", is_flag=True)
 def main(config: Path, version: bool):

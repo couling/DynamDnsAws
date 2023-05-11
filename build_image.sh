@@ -15,6 +15,5 @@ read package_name version << EOF
 $(poetry version | sed 's/+/_/g')
 EOF
 
-docker build "${project_dir}" -t "${package_name}:${version}"
-
-echo "image built ${package_name}:${version}"
+docker build "${project_dir}" -t "couling/${package_name}:${version}"
+docker tag "couling/${package_name}:${version}" "couling/${package_name}:latest"

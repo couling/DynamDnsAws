@@ -3,14 +3,9 @@ version: "3.4"
 services:
 
   dynamic_dns:
-    build: .
+    image: couling/dynamic-dns-aws:latest
     restart: always
     volumes:
-      - ./etc:/etc/aws
-      - /root/.aws/:/root/.aws
-    networks:
-      - main
+      - ./etc/dynamic_dns.yaml:/etc/dynamic-dns-aws/dynamic-dns.yaml
+      - $HOME/.aws/:/root/.aws
 
-networks:
-  main:
-    external: true

@@ -49,7 +49,7 @@ services:
     restart: always
     volumes:
       # Bind mount your configuration
-      - ./dynamic-dns.yaml:/etc/dnamic-dns-aws/dynamic-dns.yaml
+      - ./dynamic-dns.yaml:/etc/dynamic-dns-aws/dynamic-dns.yaml
       # If not running in AWS cloud, then bind mount credentials
       - /root/.aws/:/root/.aws
 ```
